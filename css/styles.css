@@ -1,0 +1,186 @@
+:root {
+    --bg-ocean: #2d5a7d;
+    --text-light: #f5f5dc;
+    --accent-blue: #4fa6d7;
+    --accent-gold: #ffd700;
+    --btn-grad-top: #5dade2;
+    --btn-grad-bot: #2874a6;
+    --btn-border: #154360;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Press Start 2P', cursive;
+    user-select: none;
+}
+
+body {
+    background-color: #000;
+    color: var(--text-light);
+    overflow: hidden;
+}
+
+/* 2000s Scanline Effect (Ahead of its time performance-wise) */
+body::after {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+    z-index: 999;
+    background-size: 100% 2px, 3px 100%;
+    pointer-events: none;
+}
+
+#game-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--bg-ocean);
+}
+
+/* Screens */
+.screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+.screen.active {
+    display: flex;
+}
+
+/* Typography & Titles */
+.title {
+    font-size: 4rem;
+    color: var(--accent-gold);
+    text-shadow: 4px 4px 0px #154360, 6px 6px 0px #000;
+    margin-bottom: 2rem;
+    animation: float 3s ease-in-out infinite;
+    letter-spacing: 2px;
+}
+
+/* Loading Screen */
+#loading-screen {
+    background: radial-gradient(circle, #1e3c54 0%, #0d1a24 100%);
+}
+
+.loading-text {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--accent-blue);
+    text-shadow: 2px 2px 0px #000;
+}
+
+.progress-bar-container {
+    width: 50%;
+    height: 30px;
+    background-color: #111;
+    border: 3px solid #5dade2;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: inset 2px 2px 5px rgba(0,0,0,0.8), 0 0 10px rgba(93, 173, 226, 0.5);
+}
+
+#progress-bar {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(to bottom, #f1c40f, #f39c12);
+    transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: inset 0 2px 5px rgba(255,255,255,0.5);
+}
+
+/* 2000s Style Beveled Buttons */
+button {
+    background: linear-gradient(to bottom, var(--btn-grad-top), var(--btn-grad-bot));
+    border: 3px solid var(--btn-border);
+    color: var(--text-light);
+    padding: 1rem 2rem;
+    margin: 0.5rem;
+    font-size: 1.2rem;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.1s ease;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 0px #000;
+    box-shadow: inset 2px 2px 0px rgba(255, 255, 255, 0.3), inset -2px -2px 0px rgba(0, 0, 0, 0.3), 4px 4px 0px rgba(0,0,0,0.5);
+}
+
+button:hover {
+    background: linear-gradient(to bottom, #85c1e9, var(--btn-grad-top));
+    transform: translateY(-2px);
+    box-shadow: inset 2px 2px 0px rgba(255, 255, 255, 0.4), inset -2px -2px 0px rgba(0, 0, 0, 0.3), 6px 6px 0px rgba(0,0,0,0.5);
+}
+
+button:active {
+    transform: translateY(2px);
+    box-shadow: inset 2px 2px 0px rgba(0, 0, 0, 0.5), inset -2px -2px 0px rgba(255, 255, 255, 0.2), 2px 2px 0px rgba(0,0,0,0.5);
+}
+
+/* Game Canvas */
+#game-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    image-rendering: pixelated;
+    display: none;
+}
+#game-canvas.active {
+    display: block;
+}
+
+/* HUD */
+.hud {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    right: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    pointer-events: none;
+}
+
+.hud > * {
+    pointer-events: auto;
+}
+
+#currency-display {
+    background: linear-gradient(to bottom, var(--btn-grad-top), var(--btn-grad-bot));
+    padding: 10px 15px;
+    border-radius: 4px;
+    border: 3px solid var(--btn-border);
+    font-size: 1.2rem;
+    color: var(--accent-gold);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-shadow: 2px 2px 0px #000;
+    box-shadow: inset 2px 2px 0px rgba(255, 255, 255, 0.3), inset -2px -2px 0px rgba(0, 0, 0, 0.3), 4px 4px 0px rgba(0,0,0,0.5);
+}
+
+.icon {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* Animations */
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}

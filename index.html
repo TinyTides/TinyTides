@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tiny Tides</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="game-container">
+        <!-- Loading Screen -->
+        <div id="loading-screen" class="screen active">
+            <h1 class="title">Tiny Tides</h1>
+            <p class="loading-text">Loading...</p>
+            <div class="progress-bar-container">
+                <div id="progress-bar"></div>
+            </div>
+        </div>
+
+        <!-- Main Menu -->
+        <div id="main-menu" class="screen">
+            <h1 class="title">Tiny Tides</h1>
+            <button id="btn-story">Story Mode</button>
+            <button id="btn-free-roam">Free Roam</button>
+            <button id="btn-options">Options</button>
+        </div>
+
+        <!-- Game UI Overlay -->
+        <div id="game-ui" class="screen">
+            <div class="hud">
+                <span id="currency-display">
+                    <svg class="icon" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="8" cy="8" r="6" fill="#ffd700" stroke="#b8860b" stroke-width="2"/>
+                        <rect x="7" y="4" width="2" height="8" fill="#b8860b"/>
+                    </svg>
+                    <span id="currency-amount">0</span>
+                </span>
+                <button id="btn-shop">Shop</button>
+                <button id="btn-inventory">Inventory</button>
+            </div>
+        </div>
+
+        <!-- The Game Canvas -->
+        <canvas id="game-canvas"></canvas>
+    </div>
+
+    <script src="js/main.js" type="module"></script>
+</body>
+</html>

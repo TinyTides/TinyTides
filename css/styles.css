@@ -1,11 +1,12 @@
 :root {
-    --bg-ocean: #2d5a7d;
+    --bg-ocean: #0d1b2e;
     --text-light: #f5f5dc;
     --accent-blue: #4fa6d7;
     --accent-gold: #ffd700;
     --btn-grad-top: #5dade2;
     --btn-grad-bot: #2874a6;
     --btn-border: #154360;
+    --panel-bg: #0d1b2e;
 }
 
 * {
@@ -22,19 +23,21 @@ body {
     overflow: hidden;
 }
 
-/* 2000s Scanline Effect (Ahead of its time performance-wise) */
+/* CRT Scanline Overlay */
 body::after {
     content: " ";
     display: block;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     bottom: 0;
     right: 0;
-    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-    z-index: 999;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%),
+                linear-gradient(90deg, rgba(255, 0, 0, 0.04), rgba(0, 255, 0, 0.015), rgba(0, 0, 255, 0.04));
+    z-index: 1000;
     background-size: 100% 2px, 3px 100%;
     pointer-events: none;
+    opacity: 0.5;
 }
 
 #game-container {
@@ -44,7 +47,7 @@ body::after {
     background-color: var(--bg-ocean);
 }
 
-/* Screens */
+/* === SCREENS === */
 .screen {
     position: absolute;
     top: 0;
@@ -62,74 +65,171 @@ body::after {
     display: flex;
 }
 
-/* Typography & Titles */
+/* === TITLE === */
 .title {
-    font-size: 4rem;
+    font-size: clamp(2rem, 5vw, 4rem);
     color: var(--accent-gold);
-    text-shadow: 4px 4px 0px #154360, 6px 6px 0px #000;
-    margin-bottom: 2rem;
+    text-shadow:
+        0 0 10px rgba(255, 215, 0, 0.3),
+        4px 4px 0px #154360,
+        6px 6px 0px #000;
+    margin-bottom: 0.5rem;
     animation: float 3s ease-in-out infinite;
-    letter-spacing: 2px;
+    letter-spacing: 3px;
+    z-index: 2;
 }
 
-/* Loading Screen */
+.subtitle {
+    font-size: clamp(0.5rem, 1.5vw, 0.9rem);
+    color: var(--accent-blue);
+    text-shadow: 2px 2px 0px #000;
+    margin-bottom: 2rem;
+    letter-spacing: 2px;
+    z-index: 2;
+}
+
+/* === LOADING SCREEN === */
 #loading-screen {
-    background: radial-gradient(circle, #1e3c54 0%, #0d1a24 100%);
+    background: radial-gradient(ellipse at 50% 80%, #1a3a5c 0%, #0d1b2e 60%, #050d14 100%);
+    overflow: hidden;
+}
+
+.loading-waves {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 40%;
+    overflow: hidden;
+}
+
+.wave {
+    position: absolute;
+    bottom: 0;
+    left: -50%;
+    width: 200%;
+    height: 100%;
+    border-radius: 45%;
+    animation: wave-rotate linear infinite;
+    opacity: 0.15;
+}
+
+.wave-1 {
+    background: #2980b9;
+    animation-duration: 8s;
+    bottom: -60%;
+}
+
+.wave-2 {
+    background: #1a6b8a;
+    animation-duration: 11s;
+    bottom: -65%;
+    opacity: 0.1;
+}
+
+.wave-3 {
+    background: #145a7a;
+    animation-duration: 14s;
+    bottom: -70%;
+    opacity: 0.08;
 }
 
 .loading-text {
-    font-size: 1.5rem;
+    font-size: clamp(0.6rem, 1.5vw, 1rem);
     margin-bottom: 1rem;
     color: var(--accent-blue);
     text-shadow: 2px 2px 0px #000;
+    z-index: 2;
 }
 
 .progress-bar-container {
-    width: 50%;
-    height: 30px;
+    width: min(50%, 400px);
+    height: 24px;
     background-color: #111;
     border: 3px solid #5dade2;
     border-radius: 4px;
     overflow: hidden;
-    box-shadow: inset 2px 2px 5px rgba(0,0,0,0.8), 0 0 10px rgba(93, 173, 226, 0.5);
+    box-shadow: inset 2px 2px 5px rgba(0,0,0,0.8), 0 0 15px rgba(93, 173, 226, 0.4);
+    z-index: 2;
 }
 
 #progress-bar {
     width: 0%;
     height: 100%;
     background: linear-gradient(to bottom, #f1c40f, #f39c12);
-    transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    box-shadow: inset 0 2px 5px rgba(255,255,255,0.5);
+    transition: width 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: inset 0 2px 5px rgba(255,255,255,0.5), 0 0 8px rgba(241, 196, 15, 0.5);
 }
 
-/* 2000s Style Beveled Buttons */
+/* === MAIN MENU === */
+#main-menu {
+    background: radial-gradient(ellipse at 50% 80%, #1a3a5c 0%, #0d1b2e 60%, #050d14 100%);
+}
+
+.menu-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+        radial-gradient(circle at 20% 30%, rgba(93, 173, 226, 0.05) 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(255, 215, 0, 0.03) 0%, transparent 40%);
+}
+
+.menu-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 2;
+}
+
+.menu-footer {
+    position: absolute;
+    bottom: 20px;
+    font-size: clamp(0.35rem, 0.8vw, 0.55rem);
+    color: #445566;
+    text-shadow: 1px 1px 0px #000;
+    z-index: 2;
+}
+
+/* === BUTTONS === */
 button {
     background: linear-gradient(to bottom, var(--btn-grad-top), var(--btn-grad-bot));
     border: 3px solid var(--btn-border);
     color: var(--text-light);
-    padding: 1rem 2rem;
-    margin: 0.5rem;
-    font-size: 1.2rem;
+    padding: 0.8rem 2.5rem;
+    font-size: clamp(0.65rem, 1.2vw, 1rem);
     cursor: pointer;
     border-radius: 4px;
     transition: all 0.1s ease;
     text-transform: uppercase;
     text-shadow: 2px 2px 0px #000;
-    box-shadow: inset 2px 2px 0px rgba(255, 255, 255, 0.3), inset -2px -2px 0px rgba(0, 0, 0, 0.3), 4px 4px 0px rgba(0,0,0,0.5);
+    box-shadow:
+        inset 2px 2px 0px rgba(255, 255, 255, 0.3),
+        inset -2px -2px 0px rgba(0, 0, 0, 0.3),
+        4px 4px 0px rgba(0,0,0,0.5);
+    min-width: 220px;
 }
 
 button:hover {
     background: linear-gradient(to bottom, #85c1e9, var(--btn-grad-top));
     transform: translateY(-2px);
-    box-shadow: inset 2px 2px 0px rgba(255, 255, 255, 0.4), inset -2px -2px 0px rgba(0, 0, 0, 0.3), 6px 6px 0px rgba(0,0,0,0.5);
+    box-shadow:
+        inset 2px 2px 0px rgba(255, 255, 255, 0.4),
+        inset -2px -2px 0px rgba(0, 0, 0, 0.3),
+        6px 6px 0px rgba(0,0,0,0.5);
 }
 
 button:active {
     transform: translateY(2px);
-    box-shadow: inset 2px 2px 0px rgba(0, 0, 0, 0.5), inset -2px -2px 0px rgba(255, 255, 255, 0.2), 2px 2px 0px rgba(0,0,0,0.5);
+    box-shadow:
+        inset 2px 2px 0px rgba(0, 0, 0, 0.5),
+        inset -2px -2px 0px rgba(255, 255, 255, 0.2),
+        2px 2px 0px rgba(0,0,0,0.5);
 }
 
-/* Game Canvas */
+/* === GAME CANVAS === */
 #game-canvas {
     position: absolute;
     top: 0;
@@ -138,49 +238,20 @@ button:active {
     height: 100%;
     z-index: 1;
     image-rendering: pixelated;
+    image-rendering: crisp-edges;
     display: none;
 }
 #game-canvas.active {
     display: block;
 }
 
-/* HUD */
-.hud {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    right: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    pointer-events: none;
-}
-
-.hud > * {
-    pointer-events: auto;
-}
-
-#currency-display {
-    background: linear-gradient(to bottom, var(--btn-grad-top), var(--btn-grad-bot));
-    padding: 10px 15px;
-    border-radius: 4px;
-    border: 3px solid var(--btn-border);
-    font-size: 1.2rem;
-    color: var(--accent-gold);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    text-shadow: 2px 2px 0px #000;
-    box-shadow: inset 2px 2px 0px rgba(255, 255, 255, 0.3), inset -2px -2px 0px rgba(0, 0, 0, 0.3), 4px 4px 0px rgba(0,0,0,0.5);
-}
-
-.icon {
-    display: inline-block;
-    vertical-align: middle;
-}
-
-/* Animations */
+/* === ANIMATIONS === */
 @keyframes float {
     0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-15px); }
+    50% { transform: translateY(-12px); }
+}
+
+@keyframes wave-rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }
